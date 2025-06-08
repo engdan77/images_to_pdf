@@ -1,0 +1,22 @@
+[project]
+name = "images-to-pdf"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Daniel Engval", email = "daniel@engvalls.eu" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "cyclopts>=3.17.0",
+    "fpdf2>=2.8.3",
+    "loguru>=0.7.3",
+    "pillow>=11.2.1",
+]
+
+[project.scripts]
+images-to-pdf = "images_to_pdf:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
