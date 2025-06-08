@@ -21,13 +21,13 @@ def create_pdf(image_path: ExistingDirectory,
                layout: Literal['grid', 'auto'] = "grid",
 ):
     logger.info("Start conversion")
-    files = itertools.chain.from_iterable(image_path.rglob(p) for p in ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.bmp'])
+    files = list(itertools.chain.from_iterable(image_path.rglob(p) for p in ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.bmp']))
     for f in files:
         logger.info(f"Found file {f} {f.stat().st_size / 1000:.0f} KB")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         page_image_files = []
-        for page_number, batch_of_image_files in enumerate(itertools.batched(files, images_per_page)):
+        for page_number, batch_of_image_files in enumerate(itertools.batched(files, images_per_page), start=1):
             logger.info(f"Creating page {page_number}")
             output_image_bytes = create_collage_from_images(
                 images=batch_of_image_files,
