@@ -3,7 +3,7 @@ from enum import StrEnum
 from PIL import Image
 import io
 from pathlib import Path
-from typing import Literal, Annotated
+from typing import Literal, Annotated, Iterable
 from PIL import Image, ImageOps
 import math
 import random
@@ -13,8 +13,9 @@ GOLDEN_RATIO = (1 + math.sqrt(5)) / 2  # Define the golden ratio
 
 
 class ImageFormat(StrEnum):
-    JPG = 'JPEG'
-    PNG = 'PNG'
+    JPG = "JPEG"
+    PNG = "PNG"
+
 
 def golden_ratio_collage(images, collage, padding, randomization):
     """
@@ -159,7 +160,6 @@ def lane_collage(
     return collage
 
 
-
 def auto_layout(images, collage, padding, randomization, centered):
     """
     Create an auto layout.
@@ -293,14 +293,20 @@ def grid_collage(images, collage, padding, randomization, centered):
     return collage
 
 
-def create_collage_from_images(images: list[Path], collage_type: Literal['grid', 'auto'], size = (2560, 1440), bg_color: str = '#000000', image_format: ImageFormat = ImageFormat.PNG) -> Annotated[bytes, "Image bytes"]:
+def create_collage_from_images(
+    images: Iterable[Path],
+    collage_type: Literal["grid", "auto"],
+    size=(1754, 1240),
+    bg_color: str = "#000000",
+    image_format: ImageFormat = ImageFormat.PNG,
+) -> Annotated[bytes, "Image bytes"]:
     new_collage = Image.new(
         "RGB",
         size=size,
         color=bg_color,
     )
 
-    t = {'grid': grid_collage, 'auto': auto_layout}
+    t = {"grid": grid_collage, "auto": auto_layout}
 
     new_collage: Image = t[collage_type](
         images=images,
@@ -310,7 +316,5 @@ def create_collage_from_images(images: list[Path], collage_type: Literal['grid',
         centered=False,
     )
     image_bytes = io.BytesIO()
-    new_collage.save(
-        image_bytes, format=image_format.value
-    )
+    new_collage.save(image_bytes, format=image_format.value)
     return image_bytes.getvalue()
