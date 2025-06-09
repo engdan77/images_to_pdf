@@ -1,30 +1,10 @@
 from pathlib import Path
 from typing import Literal
 from fpdf import FPDF
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from loguru import logger
 
-
-def add_text_to_image(image: Image, text: str) -> Image:
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default(40)
-    text_color = (255, 255, 255)
-    x = image.width / 4
-    y = 20
-    position = (x / 2, y)
-    left, top, right, bottom = draw.textbbox(position, text, font=font)
-    draw.rectangle((left - 5, top - 5, right + 5, bottom + 5), fill="black")
-    draw.text(position, text, font=font, fill=text_color)
-    return image
-
-
-def resize_image(image: Image, size: tuple[int, int]) -> Image:
-    width = size[0]
-    width_percent = (width / float(image.size[0]))
-    logger.info(f"Resizing image to {width}x{int(width_percent * float(image.size[1]))}")
-    hsize = int((float(image.size[1]) * float(width_percent)))
-    img = image.resize((width, hsize), resample=Image.Resampling.BILINEAR)
-    return img
+from images_to_pdf.image import resize_image
 
 
 def create_pdf_from_images(
@@ -38,7 +18,7 @@ def create_pdf_from_images(
     for image in images:
         pdf.add_page()
         img = Image.open(image.as_posix())
-        img = add_text_to_image(img, 'FOO\nBAR')
+        # img = add_text_to_image(img, 'FOO\nBAR')
         if shrink_to_resolution:
             img = resize_image(img, shrink_to_resolution)
             pdf.image(img, x=0, y=0, w=210, type="", link="")

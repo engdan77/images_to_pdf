@@ -1,6 +1,6 @@
 from enum import StrEnum
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import io
 from pathlib import Path
 from typing import Literal, Annotated, Iterable
@@ -8,6 +8,7 @@ from PIL import Image, ImageOps
 import math
 import random
 
+from loguru import logger
 
 GOLDEN_RATIO = (1 + math.sqrt(5)) / 2  # Define the golden ratio
 
@@ -319,3 +320,36 @@ def create_collage_from_images(
     image_bytes = io.BytesIO()
     new_collage.save(image_bytes, format=image_format.value)
     return image_bytes.getvalue()
+
+
+def add_text_to_image(image_file: Path, text: str):
+    image = Image.open(image_file)
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default(40)
+    text_color = (255, 255, 255)
+    x = image.width / 3
+    y = 20
+    position = (x / 2, y)
+    left, top, right, bottom = draw.textbbox(position, text, font=font)
+    draw.rectangle((left - 5, top - 5, right + 5, bottom + 5), fill="black")
+    draw.text(position, text, font=font, fill=text_color)
+    format_ = None
+    match image_file.suffix:
+        case ".jpg" | ".jpeg":
+            format_ = "JPEG"
+        case ".png" :
+            format_ = "PNG"
+        case ".tiff":
+            format_ = "TIFF"
+        case _:
+            assert "No valid image format found. Please provide a valid image format."
+    image.save(image_file, format=format_)
+
+
+def resize_image(image: Image, size: tuple[int, int]) -> Image:
+    width = size[0]
+    width_percent = (width / float(image.size[0]))
+    logger.info(f"Resizing image to {width}x{int(width_percent * float(image.size[1]))}")
+    hsize = int((float(image.size[1]) * float(width_percent)))
+    img = image.resize((width, hsize), resample=Image.Resampling.BILINEAR)
+    return img
