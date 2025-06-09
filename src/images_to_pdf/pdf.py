@@ -7,15 +7,14 @@ from loguru import logger
 
 def add_text_to_image(image: Image, text: str) -> Image:
     draw = ImageDraw.Draw(image)
-
     font = ImageFont.load_default(40)
-    text_color = (255, 0, 0)
-
-    # Calculate the position to center the text
-    text_length = draw.textlength(text)
+    text_color = (255, 255, 255)
     x = image.width / 4
-    y = image.height / 2
-    draw.text((x, 20), text, fill=text_color, font=font)
+    y = 20
+    position = (x / 2, y)
+    left, top, right, bottom = draw.textbbox(position, text, font=font)
+    draw.rectangle((left - 5, top - 5, right + 5, bottom + 5), fill="black")
+    draw.text(position, text, font=font, fill=text_color)
     return image
 
 
@@ -39,7 +38,7 @@ def create_pdf_from_images(
     for image in images:
         pdf.add_page()
         img = Image.open(image.as_posix())
-        img = add_text_to_image(img, 'FOO')
+        img = add_text_to_image(img, 'FOO\nBAR')
         if shrink_to_resolution:
             img = resize_image(img, shrink_to_resolution)
             pdf.image(img, x=0, y=0, w=210, type="", link="")
