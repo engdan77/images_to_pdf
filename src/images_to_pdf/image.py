@@ -295,7 +295,7 @@ def grid_collage(images, collage, padding, randomization, centered):
 
 def create_collage_from_images(
     images: Iterable[Path],
-    collage_type: Literal["grid", "auto", "lane"],
+    collage_type: Literal["grid", "auto", "lane", "document"],
     size=(1754, 1240),
     bg_color: str = "#000000",
     image_format: ImageFormat = ImageFormat.PNG,
@@ -307,7 +307,7 @@ def create_collage_from_images(
         color=bg_color,
     )
 
-    t = {"grid": grid_collage, "auto": auto_layout, "lane": lane_collage}
+    t = {"grid": grid_collage, "auto": auto_layout, "lane": lane_collage, "document": lane_collage}
 
     new_collage: Image = t[collage_type](
         images=images,

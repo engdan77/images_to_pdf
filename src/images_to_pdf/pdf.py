@@ -6,20 +6,26 @@ from loguru import logger
 
 
 def add_text_to_image(image: Image, text: str) -> Image:
-    # Create a drawing context
     draw = ImageDraw.Draw(image)
 
-    # Define the text properties
-    # font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 36)
-    text_color = (255, 255, 255)
+    font = ImageFont.load_default(40)
+    text_color = (255, 0, 0)
 
     # Calculate the position to center the text
     text_length = draw.textlength(text)
-    x = (image.width - text_length) / 2
+    x = image.width / 4
     y = image.height / 2
-    # Add text to the image
-    draw.text((x, y), text, fill=text_color)
+    draw.text((x, 20), text, fill=text_color, font=font)
     return image
+
+
+def resize_image(image: Image, size: tuple[int, int]) -> Image:
+    width = size[0]
+    width_percent = (width / float(image.size[0]))
+    logger.info(f"Resizing image to {width}x{int(width_percent * float(image.size[1]))}")
+    hsize = int((float(image.size[1]) * float(width_percent)))
+    img = image.resize((width, hsize), resample=Image.Resampling.BILINEAR)
+    return img
 
 
 def create_pdf_from_images(
@@ -27,13 +33,18 @@ def create_pdf_from_images(
     output_pdf_path: Path,
     page_format: Literal["a4"],
     orientation: Literal["portrait", "landscape"] = "landscape",
+    shrink_to_resolution: None | tuple[int, int] = None,
 ):
     pdf = FPDF(orientation=orientation, format=page_format)
     for image in images:
         pdf.add_page()
         img = Image.open(image.as_posix())
-        img = add_text_to_image(img, 'FOOO')
-        # img = img.crop((10, 10, 490, 490)).resize((96, 96), resample=Image.NEAREST)
-        pdf.image(img, x=0, y=0, w=300, type="", link="")
+        img = add_text_to_image(img, 'FOO')
+        if shrink_to_resolution:
+            img = resize_image(img, shrink_to_resolution)
+            pdf.image(img, x=0, y=0, w=210, type="", link="")
+        else:
+            pdf.image(img, x=0, y=0, w=300, type="", link="")
+
     pdf.output(output_pdf_path.as_posix())
     logger.info(f"Created PDF at {output_pdf_path.as_posix()}")
