@@ -5,7 +5,7 @@ from typing import Annotated, Literal
 from cyclopts import App, Parameter
 from cyclopts.types import ExistingDirectory, ResolvedFile
 from images_to_pdf.image import create_collage_from_images, ImageFormat, add_text_to_image
-from loguru import logger
+from . import logger
 
 from images_to_pdf.pdf import create_pdf_from_images
 from images_to_pdf.text import filename_to_annotation

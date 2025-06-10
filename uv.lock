@@ -110,6 +110,7 @@ dependencies = [
     { name = "fpdf2" },
     { name = "loguru" },
     { name = "pillow" },
+    { name = "pywebio" },
 ]
 
 [package.metadata]
@@ -118,6 +119,7 @@ requires-dist = [
     { name = "fpdf2", specifier = ">=2.8.3" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pillow", specifier = ">=11.2.1" },
+    { name = "pywebio", specifier = ">=1.8.4" },
 ]
 
 [[package]]
@@ -205,6 +207,16 @@ wheels = [
 ]
 
 [[package]]
+name = "pywebio"
+version = "1.8.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tornado" },
+    { name = "user-agents" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b1/93/452612cf7fe60f5c5d5dd5e9cfeaed4e0369343cd10a478f9c1dc9a93da1/pywebio-1.8.4.tar.gz", hash = "sha256:8108fbd2af035db0af42e8e4d001cbef9c26ec527a2ff869725b1caf2af5a114", size = 1446611, upload-time = "2025-04-04T15:25:46.428Z" }
+
+[[package]]
 name = "rich"
 version = "14.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -228,6 +240,57 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/b0/69/5514c3a87b5f10f09a34bb011bc0927bc12c596c8dae5915604e71abc386/rich_rst-1.3.1.tar.gz", hash = "sha256:fad46e3ba42785ea8c1785e2ceaa56e0ffa32dbe5410dec432f37e4107c4f383", size = 13839, upload-time = "2024-04-30T04:40:38.125Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fd/bc/cc4e3dbc5e7992398dcb7a8eda0cbcf4fb792a0cdb93f857b478bf3cf884/rich_rst-1.3.1-py3-none-any.whl", hash = "sha256:498a74e3896507ab04492d326e794c3ef76e7cda078703aa592d1853d91098c1", size = 11621, upload-time = "2024-04-30T04:40:32.619Z" },
+]
+
+[[package]]
+name = "tornado"
+version = "6.5.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/51/89/c72771c81d25d53fe33e3dca61c233b665b2780f21820ba6fd2c6793c12b/tornado-6.5.1.tar.gz", hash = "sha256:84ceece391e8eb9b2b95578db65e920d2a61070260594819589609ba9bc6308c", size = 509934, upload-time = "2025-05-22T18:15:38.788Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/77/89/f4532dee6843c9e0ebc4e28d4be04c67f54f60813e4bf73d595fe7567452/tornado-6.5.1-cp39-abi3-macosx_10_9_universal2.whl", hash = "sha256:d50065ba7fd11d3bd41bcad0825227cc9a95154bad83239357094c36708001f7", size = 441948, upload-time = "2025-05-22T18:15:20.862Z" },
+    { url = "https://files.pythonhosted.org/packages/15/9a/557406b62cffa395d18772e0cdcf03bed2fff03b374677348eef9f6a3792/tornado-6.5.1-cp39-abi3-macosx_10_9_x86_64.whl", hash = "sha256:9e9ca370f717997cb85606d074b0e5b247282cf5e2e1611568b8821afe0342d6", size = 440112, upload-time = "2025-05-22T18:15:22.591Z" },
+    { url = "https://files.pythonhosted.org/packages/55/82/7721b7319013a3cf881f4dffa4f60ceff07b31b394e459984e7a36dc99ec/tornado-6.5.1-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b77e9dfa7ed69754a54c89d82ef746398be82f749df69c4d3abe75c4d1ff4888", size = 443672, upload-time = "2025-05-22T18:15:24.027Z" },
+    { url = "https://files.pythonhosted.org/packages/7d/42/d11c4376e7d101171b94e03cef0cbce43e823ed6567ceda571f54cf6e3ce/tornado-6.5.1-cp39-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:253b76040ee3bab8bcf7ba9feb136436a3787208717a1fb9f2c16b744fba7331", size = 443019, upload-time = "2025-05-22T18:15:25.735Z" },
+    { url = "https://files.pythonhosted.org/packages/7d/f7/0c48ba992d875521ac761e6e04b0a1750f8150ae42ea26df1852d6a98942/tornado-6.5.1-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:308473f4cc5a76227157cdf904de33ac268af770b2c5f05ca6c1161d82fdd95e", size = 443252, upload-time = "2025-05-22T18:15:27.499Z" },
+    { url = "https://files.pythonhosted.org/packages/89/46/d8d7413d11987e316df4ad42e16023cd62666a3c0dfa1518ffa30b8df06c/tornado-6.5.1-cp39-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:caec6314ce8a81cf69bd89909f4b633b9f523834dc1a352021775d45e51d9401", size = 443930, upload-time = "2025-05-22T18:15:29.299Z" },
+    { url = "https://files.pythonhosted.org/packages/78/b2/f8049221c96a06df89bed68260e8ca94beca5ea532ffc63b1175ad31f9cc/tornado-6.5.1-cp39-abi3-musllinux_1_2_i686.whl", hash = "sha256:13ce6e3396c24e2808774741331638ee6c2f50b114b97a55c5b442df65fd9692", size = 443351, upload-time = "2025-05-22T18:15:31.038Z" },
+    { url = "https://files.pythonhosted.org/packages/76/ff/6a0079e65b326cc222a54720a748e04a4db246870c4da54ece4577bfa702/tornado-6.5.1-cp39-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:5cae6145f4cdf5ab24744526cc0f55a17d76f02c98f4cff9daa08ae9a217448a", size = 443328, upload-time = "2025-05-22T18:15:32.426Z" },
+    { url = "https://files.pythonhosted.org/packages/49/18/e3f902a1d21f14035b5bc6246a8c0f51e0eef562ace3a2cea403c1fb7021/tornado-6.5.1-cp39-abi3-win32.whl", hash = "sha256:e0a36e1bc684dca10b1aa75a31df8bdfed656831489bc1e6a6ebed05dc1ec365", size = 444396, upload-time = "2025-05-22T18:15:34.205Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/09/6526e32bf1049ee7de3bebba81572673b19a2a8541f795d887e92af1a8bc/tornado-6.5.1-cp39-abi3-win_amd64.whl", hash = "sha256:908e7d64567cecd4c2b458075589a775063453aeb1d2a1853eedb806922f568b", size = 444840, upload-time = "2025-05-22T18:15:36.1Z" },
+    { url = "https://files.pythonhosted.org/packages/55/a7/535c44c7bea4578e48281d83c615219f3ab19e6abc67625ef637c73987be/tornado-6.5.1-cp39-abi3-win_arm64.whl", hash = "sha256:02420a0eb7bf617257b9935e2b754d1b63897525d8a289c9d65690d580b4dcf7", size = 443596, upload-time = "2025-05-22T18:15:37.433Z" },
+]
+
+[[package]]
+name = "ua-parser"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "ua-parser-builtins" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/70/0e/ed98be735bc89d5040e0c60f5620d0b8c04e9e7da99ed1459e8050e90a77/ua_parser-1.0.1.tar.gz", hash = "sha256:f9d92bf19d4329019cef91707aecc23c6d65143ad7e29a233f0580fb0d15547d", size = 728106, upload-time = "2025-02-01T14:13:32.508Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/94/37/be6dfbfa45719aa82c008fb4772cfe5c46db765a2ca4b6f524a1fdfee4d7/ua_parser-1.0.1-py3-none-any.whl", hash = "sha256:b059f2cb0935addea7e551251cbbf42e9a8872f86134163bc1a4f79e0945ffea", size = 31410, upload-time = "2025-02-01T14:13:28.458Z" },
+]
+
+[[package]]
+name = "ua-parser-builtins"
+version = "0.18.0.post1"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6f/d3/13adff37f15489c784cc7669c35a6c3bf94b87540229eedf52ef2a1d0175/ua_parser_builtins-0.18.0.post1-py3-none-any.whl", hash = "sha256:eb4f93504040c3a990a6b0742a2afd540d87d7f9f05fd66e94c101db1564674d", size = 86077, upload-time = "2024-12-05T18:44:36.732Z" },
+]
+
+[[package]]
+name = "user-agents"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "ua-parser" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e3/e1/63c5bfb485a945010c8cbc7a52f85573561737648d36b30394248730a7bc/user-agents-2.2.0.tar.gz", hash = "sha256:d36d25178db65308d1458c5fa4ab39c9b2619377010130329f3955e7626ead26", size = 9525, upload-time = "2020-08-23T06:01:56.382Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8f/1c/20bb3d7b2bad56d881e3704131ddedbb16eb787101306887dff349064662/user_agents-2.2.0-py3-none-any.whl", hash = "sha256:a98c4dc72ecbc64812c4534108806fb0a0b3a11ec3fd1eafe807cee5b0a942e7", size = 9614, upload-time = "2020-08-23T06:01:54.047Z" },
 ]
 
 [[package]]

@@ -12,6 +12,7 @@ dependencies = [
     "fpdf2>=2.8.3",
     "loguru>=0.7.3",
     "pillow>=11.2.1",
+    "pywebio>=1.8.4",
 ]
 
 [project.scripts]
