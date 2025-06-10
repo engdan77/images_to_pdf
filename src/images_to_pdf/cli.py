@@ -77,12 +77,15 @@ def create_pdf(image_path: ExistingDirectory,
                     page_image_files.append(merged_image_file)
 
                 if count_of_final_pdf_files > 1:
-                    output_pdf = output_pdf.parent / f"{output_pdf.stem}_{pdf_number}{output_pdf.suffix}"
+                    pad_size = len(str(count_of_final_pdf_files))
+                    output_pdf_final = output_pdf.parent / f"{output_pdf.stem}_{str(pdf_number).zfill(pad_size)}{output_pdf.suffix}"
+                else:
+                    output_pdf_final = output_pdf.parent / f"{output_pdf.stem}{output_pdf.suffix}"
 
                 logger.info(f"Creating PDF {output_pdf.as_posix()}")
                 create_pdf_from_images(
                     images=page_image_files,
-                    output_pdf_path=output_pdf,
+                    output_pdf_path=output_pdf_final,
                     page_format="a4",
                     orientation=orientation,
                     shrink_to_resolution=shrink_to_resolution,
