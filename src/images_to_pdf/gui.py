@@ -8,6 +8,21 @@ from pywebio_battery import file_picker, put_logbox
 from userpaths import get_my_pictures, get_desktop
 from . import logger
 from . import __version__
+import sys
+
+
+def validate_path(path: str):
+    if not Path(path).is_dir():
+        return "Input path for images does not exist"
+    return None
+
+
+def validate_output_file(path: str):
+    if not Path(path).parent.is_dir():
+        return "Directory for output file does not exist"
+    if Path(path).suffix != '.pdf':
+        return "Output file must be PDF"
+    return None
 
 
 def main():
@@ -15,10 +30,13 @@ def main():
     put_logbox("log")
 
     logger.info(f"Start {__package__} {__version__}")
+    input_path = sys.argv[1] if len(sys.argv) > 1 else get_desktop()
 
     params = input_group("Parameters", [
-        input('Image folder', type=TEXT, name='image_path', value=get_my_pictures()),
-        input('Output PDF', type=TEXT, name='output_pdf', value=(Path(get_desktop()) / 'output.pdf').as_posix()),
+        input('Image folder', type=TEXT, name='image_path', value=get_my_pictures(), validate=validate_path),
+        input('Output PDF', type=TEXT, name='output_pdf', value=(Path(get_desktop()) / 'output.pdf').as_posix(), validate=validate_output_file),
+        select('Page format: ', options=['a4'], name='page_format', value='a4'),
+        select(label='Orientation', options=['landscape', 'portrait'], name='orientation', value='landscape', help_text='Landscape found best unless document'),
         input('Images per page: ', type=NUMBER, name='images_per_page', value=10),
         input('Max pages per PDF: ', type=NUMBER, name='max_pages_per_pdf', value=20),
         select(label='Layout', options=['grid', 'auto', 'lane', 'document'], name='layout', value='grid', help_text='Document for single page per image'),
