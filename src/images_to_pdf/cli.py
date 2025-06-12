@@ -86,7 +86,7 @@ def generate_pdf(
 def create_pdf(
     image_path: ExistingDirectory,
     output_pdf: ResolvedFile,
-    images_per_page: int = 10,
+    images_per_page: int = 6,
     max_pages_per_pdf: int = 20,
     layout: Literal["grid", "auto", "lane", "document"] = "grid",
     resolution: tuple[int, int] = (1754, 1240),

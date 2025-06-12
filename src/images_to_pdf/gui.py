@@ -68,7 +68,7 @@ def main():
                 value="landscape",
                 help_text="Landscape found best unless document",
             ),
-            input("Images per page: ", type=NUMBER, name="images_per_page", value=10),
+            input("Images per page: ", type=NUMBER, name="images_per_page", value=6),
             input(
                 "Max pages per PDF: ", type=NUMBER, name="max_pages_per_pdf", value=20
             ),
