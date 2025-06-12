@@ -10,7 +10,7 @@ Many times in my past I've missed a tool for easily converting number of images 
 
 ## How to run - with no need to install
 
-Ensure you have UV the package installed following this instruction, then run the following command
+Ensure you have UV the package installed following [this](https://docs.astral.sh/uv/guides/install-python/) instruction, then run the following command
 
 ### GUI version
 
