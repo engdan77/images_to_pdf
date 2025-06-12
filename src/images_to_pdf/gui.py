@@ -4,6 +4,7 @@ from pywebio.output import put_progressbar, set_progressbar, put_text, put_html
 
 from images_to_pdf.cli import create_pdf
 from . import runmode, __email__
+import pywebio
 from pywebio.input import input_group, input, NUMBER, select, checkbox, TEXT
 from pywebio_battery import put_logbox
 from userpaths import get_desktop
@@ -127,4 +128,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except pywebio.exceptions.SessionClosedException as e:
+        print('Closing GUI')

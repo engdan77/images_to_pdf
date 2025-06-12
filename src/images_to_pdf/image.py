@@ -353,20 +353,14 @@ def create_collage_from_images(
     return image_bytes.getvalue()
 
 
-def format_annotate_text(input_text: str) -> str:
-    t = re.sub(r'^\d+', '', input_text).strip()
-    return t.replace("__", "\n").replace('_', ' ').strip()
-
-
 def add_text_to_image(image_file: Path, text: str):
     image = Image.open(image_file)
     draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default(40)
+    font = ImageFont.load_default(20)
     text_color = (255, 255, 255)
     x = image.width / 3
-    y = 20
-    position = (x / 2, y)
-    text = format_annotate_text(text)
+    y = 80
+    position = (x / 3, y)
     left, top, right, bottom = draw.textbbox(position, text, font=font)
     draw.rectangle((left - 5, top - 5, right + 5, bottom + 5), fill="black")
     draw.text(position, text, font=font, fill=text_color)
