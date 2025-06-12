@@ -1,7 +1,7 @@
 [project]
 name = "images-to-pdf"
-version = "0.1.1"
-description = "Add your description here"
+version = "0.1.2"
+description = "Convert images to PDF"
 readme = "README.md"
 authors = [
     { name = "Daniel Engval", email = "daniel@engvalls.eu" }
@@ -20,6 +20,7 @@ dependencies = [
 
 [project.scripts]
 images-to-pdf = "images_to_pdf.cli:main"
+images-to-pdf-gui = "images_to_pdf.gui:main"
 
 [build-system]
 requires = ["hatchling"]
