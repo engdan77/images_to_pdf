@@ -1,3 +1,3 @@
-from .cli import main
+import get_version
 
-main()
+__version__ = get_version.get_version(__file__)

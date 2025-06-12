@@ -1,11 +1,12 @@
 import itertools
 import tempfile
 from pathlib import Path
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Callable
 from cyclopts import App, Parameter
 from cyclopts.types import ExistingDirectory, ResolvedFile
 from images_to_pdf.image import create_collage_from_images, ImageFormat, add_text_to_image
 from . import logger
+from . import __version__
 
 from images_to_pdf.pdf import create_pdf_from_images
 from images_to_pdf.text import filename_to_annotation
@@ -21,8 +22,9 @@ def create_pdf(image_path: ExistingDirectory,
                layout: Literal['grid', 'auto', 'lane', 'document'] = "grid",
                resolution: tuple[int, int] = (1754, 1240),
                annotate_images: Annotated[bool, Parameter(help='Add filename as part of the image')] = False,
+               progress_func: Annotated[Callable[[float, float], None], Parameter(show=False, help='Callable with argument progress between 0 and 1 for outer and inner loop')] = lambda outer, inner: logger.info(f"Progress outer: {outer * 100:.0f}% inner: {inner * 100:.0f}%"),
 ):
-    logger.info("Start conversion")
+    logger.info(f"Start {__package__} {__version__}")
     all_image_files = list(itertools.chain.from_iterable(image_path.rglob(p) for p in ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.bmp']))
 
     orientation: Literal["landscape", "portrait"] = "landscape"
@@ -44,6 +46,8 @@ def create_pdf(image_path: ExistingDirectory,
     for pdf_number, batch_of_image_files_for_pdf in enumerate(
             itertools.batched(all_image_files, max_pages_per_pdf), start=1):
 
+        progress_pdf_files = pdf_number / count_of_final_pdf_files
+        progress_image_files = 0
         with tempfile.TemporaryDirectory() as tmpdir_annotated_images:
             final_image_files = []
             if not annotate_images:
@@ -60,7 +64,8 @@ def create_pdf(image_path: ExistingDirectory,
 
             with tempfile.TemporaryDirectory() as tmpdir_final_images:
                 page_image_files = []
-                for page_number, batch_of_image_files_for_page in enumerate(itertools.batched(final_image_files, images_per_page), start=1):
+                image_batches = list(itertools.batched(final_image_files, images_per_page))
+                for page_number, batch_of_image_files_for_page in enumerate(image_batches, start=1):
                     logger.info(f"Creating page {page_number}")
                     if layout == 'document':
                         page_image_files.extend(batch_of_image_files_for_page)
@@ -75,6 +80,8 @@ def create_pdf(image_path: ExistingDirectory,
                     merged_image_file = (Path(tmpdir_final_images) / Path(f"page_{page_number}.jpg")).expanduser()
                     merged_image_file.write_bytes(output_image_bytes)
                     page_image_files.append(merged_image_file)
+                    progress_image_files = page_number / len(image_batches)
+                    progress_func(progress_pdf_files, progress_image_files)
 
                 if count_of_final_pdf_files > 1:
                     pad_size = len(str(count_of_final_pdf_files))
@@ -90,7 +97,12 @@ def create_pdf(image_path: ExistingDirectory,
                     orientation=orientation,
                     shrink_to_resolution=shrink_to_resolution,
                 )
+        progress_func(progress_pdf_files, progress_image_files)
 
 
 def main():
     app()
+
+
+if __name__ == '__main__':
+    main()
