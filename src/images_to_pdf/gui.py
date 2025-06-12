@@ -95,6 +95,13 @@ def main():
                 value=[],
                 help_text="Add filename as part of the image, initial digits removed (could be kept for ordering), single underscores replaced by spaces, double underscores replaces by newlines",
             ),
+            checkbox(
+                label="Randomize images",
+                options=["randomize"],
+                name="randomize",
+                value=[],
+                help_text="Shuffle images randomly before processing",
+            )
         ],
     )
 
@@ -110,6 +117,7 @@ def main():
         layout=params["layout"],
         resolution=params["resolution"],
         annotate_images=params["annotate_images"],
+        randomize_images=params["randomize"],
         progress_func=update_progress_gui,
     )
 

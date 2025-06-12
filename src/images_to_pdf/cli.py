@@ -1,4 +1,5 @@
 import itertools
+import random
 import tempfile
 from pathlib import Path
 from typing import Annotated, Literal, Callable
@@ -92,6 +93,7 @@ def create_pdf(
     annotate_images: Annotated[
         bool, Parameter(help="Add filename as part of the image")
     ] = False,
+    randomize_images: Annotated[bool, Parameter(help="Shuffle images")] = False,
     progress_func: Annotated[
         Callable[[float, float], None],
         Parameter(
@@ -103,39 +105,34 @@ def create_pdf(
     ),
 ):
     """
-    Creates a PDF file or multiple PDF files from a collection of images with customization
-    options for layout, resolution, and annotations.
+    Creates a PDF by combining images from a provided directory and applying optional
+    annotations, layout adjustments, and additional processing.
 
-    This function processes image files in a directory, determines the appropriate layout and
-    resolution, and generates one or more PDF files based on the specified parameters. The
-    function supports batch processing of images, optional annotation of images with filenames,
-    and provides hooks to monitor progress through a callable function.
+    This function processes a directory of images to compile them into one or more
+    PDFs. It supports different layouts, image pagination, and options for annotating
+    image filenames. The images can also be shuffled randomly for inclusion. The
+    function allows monitoring of its execution progress using a provided callback.
 
-    :param image_path: Directory containing the image files to be included in the PDF. Must
-        exist and be accessible.
-    :type image_path: ExistingDirectory
-    :param output_pdf: Path to the output PDF file or base name for multiple PDF files.
-    :type output_pdf: ResolvedFile
-    :param images_per_page: Maximum number of images that can appear on one page in the PDF.
+    :param image_path: Directory containing images to process.
+        Only images matching the defined `SUPPORTED_IMAGE_EXTENSIONS` will be included.
+    :param output_pdf: Path to the resulting PDF file, which will contain the combined images.
+        The output can span multiple files if the image count exceeds the limits.
+    :param images_per_page: Maximum number of images to include on a single PDF page.
         Defaults to 10.
-    :type images_per_page: int
-    :param max_pages_per_pdf: Maximum number of pages allowed in a single PDF. If exceeded,
-        additional PDF files are created. Defaults to 20.
-    :type max_pages_per_pdf: int
-    :param layout: Desired layout for the images on the PDF pages. Can be one of "grid",
-        "auto", "lane", or "document". Defaults to "grid".
-    :type layout: Literal["grid", "auto", "lane", "document"]
-    :param resolution: Resolution of the output PDF pages as a tuple (width, height) in pixels.
-        Defaults to (1754, 1240).
-    :type resolution: tuple[int, int]
-    :param annotate_images: Flag to determine whether to annotate images with their filenames
-        on the PDF. Defaults to False.
-    :type annotate_images: bool
-    :param progress_func: Callable function to notify progress. It accepts two float arguments:
-        the outer progress (overall PDF generation) and inner progress (current PDF generation).
-        Defaults to a lambda that logs progress.
-    :type progress_func: Callable[[float, float], None]
-    :return: None. This function generates PDF files as output in the specified location.
+    :param max_pages_per_pdf: Maximum number of pages for each generated PDF file.
+        Defaults to 20.
+    :param layout: Layout setting for arranging images in the PDF.
+        Allowed values are "grid", "auto", "lane", or "document". Default is "grid".
+    :param resolution: Tuple defining the resolution (width, height) of the image layout.
+        Landscape layouts will use the provided resolution. Portrait-oriented layouts will
+        apply a transposed resolution. Default is (1754, 1240).
+    :param annotate_images: Whether to annotate images with their filenames. Default is False.
+    :param randomize_images: Whether to shuffle the images randomly before processing.
+        Defaults to False.
+    :param progress_func: A callable function to provide progress updates.
+        This callable takes two float arguments: the progress of outer and inner loops,
+        expressed as values between 0 and 1. By default, it logs progress values.
+    :return: None
     """
     logger.info(f"Start {__package__} {__version__}")
 
@@ -145,6 +142,10 @@ def create_pdf(
             image_path.rglob(ext) for ext in SUPPORTED_IMAGE_EXTENSIONS
         )
     )
+
+    if randomize_images:
+        random.shuffle(all_image_files)
+
     for img_file in all_image_files:
         logger.info(f"Found file {img_file} {img_file.stat().st_size / 1000:.0f} KB")
 
