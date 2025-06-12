@@ -5,8 +5,8 @@ from pywebio.output import put_progressbar, set_progressbar, put_text, put_html
 from images_to_pdf.cli import create_pdf
 from . import runmode, __email__
 from pywebio.input import input_group, input, NUMBER, select, checkbox, TEXT
-from pywebio_battery import file_picker, put_logbox
-from userpaths import get_my_pictures, get_desktop
+from pywebio_battery import put_logbox
+from userpaths import get_desktop
 from . import logger
 from . import __version__
 import sys
@@ -34,7 +34,7 @@ def update_progress_gui(outer: float, inner: float):
 def main():
     runmode.set_runmode("gui")
 
-    put_html('<h1>Images to PDF</h1>')
+    put_html(f'<h1>🌄 Images to PDF 📄 {__version__}</h1>')
     put_html(f'Author: <a href="mailto:{__email__}">{__email__}</a><br/>')
 
     put_logbox("log")

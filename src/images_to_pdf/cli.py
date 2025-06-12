@@ -102,6 +102,41 @@ def create_pdf(
         f"Progress outer: {outer * 100:.0f}% inner: {inner * 100:.0f}%"
     ),
 ):
+    """
+    Creates a PDF file or multiple PDF files from a collection of images with customization
+    options for layout, resolution, and annotations.
+
+    This function processes image files in a directory, determines the appropriate layout and
+    resolution, and generates one or more PDF files based on the specified parameters. The
+    function supports batch processing of images, optional annotation of images with filenames,
+    and provides hooks to monitor progress through a callable function.
+
+    :param image_path: Directory containing the image files to be included in the PDF. Must
+        exist and be accessible.
+    :type image_path: ExistingDirectory
+    :param output_pdf: Path to the output PDF file or base name for multiple PDF files.
+    :type output_pdf: ResolvedFile
+    :param images_per_page: Maximum number of images that can appear on one page in the PDF.
+        Defaults to 10.
+    :type images_per_page: int
+    :param max_pages_per_pdf: Maximum number of pages allowed in a single PDF. If exceeded,
+        additional PDF files are created. Defaults to 20.
+    :type max_pages_per_pdf: int
+    :param layout: Desired layout for the images on the PDF pages. Can be one of "grid",
+        "auto", "lane", or "document". Defaults to "grid".
+    :type layout: Literal["grid", "auto", "lane", "document"]
+    :param resolution: Resolution of the output PDF pages as a tuple (width, height) in pixels.
+        Defaults to (1754, 1240).
+    :type resolution: tuple[int, int]
+    :param annotate_images: Flag to determine whether to annotate images with their filenames
+        on the PDF. Defaults to False.
+    :type annotate_images: bool
+    :param progress_func: Callable function to notify progress. It accepts two float arguments:
+        the outer progress (overall PDF generation) and inner progress (current PDF generation).
+        Defaults to a lambda that logs progress.
+    :type progress_func: Callable[[float, float], None]
+    :return: None. This function generates PDF files as output in the specified location.
+    """
     logger.info(f"Start {__package__} {__version__}")
 
     # Gather and log all image files.
