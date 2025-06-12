@@ -16,7 +16,6 @@ def log(level: str, message: str):
         case 'gui':
             now = datetime.datetime.now().strftime('%H:%M:%S')
             logbox_append("log", f"{now} {level} {message}\n")
-            put_text(f'{now} {level} {message}')
 
 
 info = partial(log, 'INFO')
