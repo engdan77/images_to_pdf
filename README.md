@@ -4,7 +4,7 @@
 
 ## Background
 
-Many times in my past I've missed a tool for easily converting number of images into one or many PDF files á la "collage" (various sizes), "grid" (side-by-side), and adjust the quality and therefore the size on-the-fly as well as when my wife been asking how she'd convert "photographed" A4 pages into PDF so I took a swing and developed this little tool that for sure will aid me and perhaps other may find use of.
+Many times in my past I've missed a tool for easily converting number of images into one or many PDF files á la "collage" (various sizes), "grid" (side-by-side), and adjust the quality and therefore the size on-the-fly often when one wish to print photos to a printer or share photos with others - this is to me found very valuable. As well as when my wife been asking how she'd convert "photographed" A4 pages into PDF so I took a swing and developed this little tool that for sure will aid me and perhaps other may find use of.
 
 
 
