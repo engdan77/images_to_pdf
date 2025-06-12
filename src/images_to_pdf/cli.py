@@ -164,7 +164,7 @@ def create_pdf(
 
     # Process each batch of images for separate PDFs.
     for pdf_number, image_batch in enumerate(
-        itertools.batched(all_image_files, max_pages_per_pdf), start=1
+        itertools.batched(all_image_files, max_pages_per_pdf * images_per_page), start=1
     ):
         progress_pdf_files = pdf_number / total_pdfs
         with tempfile.TemporaryDirectory() as tmpdir_annotated_images:
