@@ -1,3 +1,4 @@
+import re
 from enum import StrEnum
 
 from PIL import Image, ImageDraw, ImageFont
@@ -301,6 +302,32 @@ def create_collage_from_images(
     bg_color: str = "#000000",
     image_format: ImageFormat = ImageFormat.PNG,
 ) -> Annotated[bytes, "Image bytes"]:
+    """
+    Creates a collage from a collection of images, allowing customization of layout, size,
+    background color, and output format. This function supports multiple collage types and
+    outputs the generated image as bytes.
+
+    :param images:
+        An iterable of Path objects representing the paths to the image files to include
+        in the collage.
+    :param collage_type:
+        Specifies the type of collage layout to generate. Supported options are:
+        - "grid": A uniform grid layout.
+        - "auto": Automatically arranges images with minimal configuration.
+        - "lane": Arranges images in lanes.
+        - "document": Similar to "lane", with document-like representation.
+    :param size:
+        A tuple specifying the dimensions of the collage in pixels, as (width, height).
+        Defaults to (1754, 1240) if not specified.
+    :param bg_color:
+        A string representing the background color of the collage in hexadecimal format.
+        Defaults to black (#000000) if not specified.
+    :param image_format:
+        Specifies the format of the output image using the ImageFormat enumeration.
+        Defaults to ImageFormat.PNG.
+    :return:
+        The generated collage as bytes, which can be saved or transmitted as needed.
+    """
     new_collage = Image.new(
         "RGB",
         size=size,
@@ -326,6 +353,11 @@ def create_collage_from_images(
     return image_bytes.getvalue()
 
 
+def format_annotate_text(input_text: str) -> str:
+    t = re.sub(r'^\d+', '', input_text).strip()
+    return t.replace("__", "\n").replace('_', ' ').strip()
+
+
 def add_text_to_image(image_file: Path, text: str):
     image = Image.open(image_file)
     draw = ImageDraw.Draw(image)
@@ -334,6 +366,7 @@ def add_text_to_image(image_file: Path, text: str):
     x = image.width / 3
     y = 20
     position = (x / 2, y)
+    text = format_annotate_text(text)
     left, top, right, bottom = draw.textbbox(position, text, font=font)
     draw.rectangle((left - 5, top - 5, right + 5, bottom + 5), fill="black")
     draw.text(position, text, font=font, fill=text_color)
