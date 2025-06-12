@@ -301,14 +301,18 @@ def create_collage_from_images(
     bg_color: str = "#000000",
     image_format: ImageFormat = ImageFormat.PNG,
 ) -> Annotated[bytes, "Image bytes"]:
-
     new_collage = Image.new(
         "RGB",
         size=size,
         color=bg_color,
     )
 
-    t = {"grid": grid_collage, "auto": auto_layout, "lane": lane_collage, "document": lane_collage}
+    t = {
+        "grid": grid_collage,
+        "auto": auto_layout,
+        "lane": lane_collage,
+        "document": lane_collage,
+    }
 
     new_collage: Image = t[collage_type](
         images=images,
@@ -337,7 +341,7 @@ def add_text_to_image(image_file: Path, text: str):
     match image_file.suffix:
         case ".jpg" | ".jpeg":
             format_ = "JPEG"
-        case ".png" :
+        case ".png":
             format_ = "PNG"
         case ".tiff":
             format_ = "TIFF"
@@ -348,8 +352,10 @@ def add_text_to_image(image_file: Path, text: str):
 
 def resize_image(image: Image, size: tuple[int, int]) -> Image:
     width = size[0]
-    width_percent = (width / float(image.size[0]))
-    logger.info(f"Resizing image to {width}x{int(width_percent * float(image.size[1]))}")
+    width_percent = width / float(image.size[0])
+    logger.info(
+        f"Resizing image to {width}x{int(width_percent * float(image.size[1]))}"
+    )
     hsize = int((float(image.size[1]) * float(width_percent)))
     img = image.resize((width, hsize), resample=Image.Resampling.BILINEAR)
     return img
